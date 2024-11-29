@@ -1,14 +1,46 @@
-# Welcome to your CDK TypeScript project
+# AWS Git LFS Backend
+cdkによってサーバーレスなLFSサーバをAWSに構築するサンプルになります。
 
-This is a blank project for CDK development with TypeScript.
+https://alanedwardes.com/blog/posts/serverless-git-lfs-for-game-dev/
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+元ネタはこちらの記事になりますが、
+- インターネット上に落ちているcloudformationのコードをいきなり実行するのは怖い
+- ついでなのでApiエンドポイントにカスタムドメインを付与したい
 
-## Useful commands
+をcdkによって実装しています。
 
-* `npm run build`   compile typescript to js
-* `npm run watch`   watch for changes and compile
-* `npm run test`    perform the jest unit tests
-* `npx cdk deploy`  deploy this stack to your default AWS account/region
-* `npx cdk diff`    compare deployed stack with current state
-* `npx cdk synth`   emits the synthesized CloudFormation template
+
+## Deploy
+
+0. Create a config file under the config folder based on the .example.json file.
+
+ex) config.json
+```json
+{
+    "zoneName": "git-lfs.example.com"
+}
+```
+
+2. Install all Node dependencies and bootstrap the CDK environment, if required.
+```
+npm install
+npx cdk bootstrap 
+```
+
+2. Deploy HostedZone Stack
+```
+npx cdk deploy HostedZone　-c config --require-approval never
+```
+
+3. Register NS records to parent HostedZone
+
+4. Then deploy all stacks defines in the application.
+```
+npx cdk deploy --all -c config --require-approval never
+```
+
+## Deleting all the stacks
+You can delete the deployed environment with the following command. 
+```
+npx cdk destroy --all
+```
