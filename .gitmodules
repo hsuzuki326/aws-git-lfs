@@ -1,0 +1,3 @@
+[submodule "Estranged.Lfs"]
+	path = Estranged.Lfs
+	url = https://github.com/alanedwardes/Estranged.Lfs
